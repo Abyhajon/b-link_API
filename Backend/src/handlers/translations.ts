@@ -1,10 +1,9 @@
-import { error } from "console"
 import prisma from "../db"
 import { translateToBraille } from "../server"
 import { validationResult } from "express-validator"
 
 //Get all
-export const getTransalation = async (req, res, next) => {
+export const getTranslation = async (req, res, next) => {
     try {
         const user = await prisma.user.findUnique({
         where: {
@@ -41,7 +40,7 @@ export const getOneTranslation = async (req, res, next) => {
     }
     res.json({data: translation})
     } catch(e) {
-        next(error)
+        next(e)
     }
 
     
@@ -57,6 +56,8 @@ export const createTranslation = async (req, res) =>  {
     const { text } = req.body;
     const brailleTranslation = translateToBraille(text);
 
+    console.log("This is a user",req.user)
+
 
     try {
         const savedTranslation = await prisma.translation.create({
@@ -65,8 +66,9 @@ export const createTranslation = async (req, res) =>  {
                 text: req.body.text,
                 belongsToId: req.user.id,
                 brailleText: brailleTranslation,
+                
             },
-        })
+        } )
 
         res.status(200).json({data: savedTranslation})
     } catch (error) {

@@ -1,7 +1,7 @@
 import {Router} from 'express'
-import { translateToBraille } from './server'
 import { check, validationResult } from "express-validator"
-import { createTranslation, getTransalation } from './handlers/translations';
+import { createTranslation, getTranslation } from './handlers/translations'
+import { deleteUser } from './handlers/users'
 
 const router = Router()
 
@@ -14,6 +14,9 @@ export const validateTranslateRequest = [
 router.post('/translate', validateTranslateRequest, createTranslation);
 
 //GET /translation
-router.get('/translations', getTransalation);
+router.get('/translations', getTranslation);
+
+//DELETE /delete user
+router.delete('/delete', deleteUser)
 
 export default router

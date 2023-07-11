@@ -38,3 +38,19 @@ export const signin = async(req, res) => {
     const token = createJWT(user)
     res.json({ token })
 }
+
+export const deleteUser = async(req,res,next) => {
+    try {
+        const { userId } = req.params
+        
+        console.log('userId')
+
+        await prisma.user.delete ({
+            where: {id: userId}
+        })
+        res.json({message: 'User deleted successfully'})
+    } catch (e) {
+        e.type = 'input'
+        next (e)
+    }
+}

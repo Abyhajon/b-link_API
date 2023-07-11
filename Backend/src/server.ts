@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import { protect } from './modules/auth'
 import { createNewUser, signin } from './handlers/users'
+import { error } from 'console'
 
 
 const app = express()
@@ -90,9 +91,9 @@ app.post('/translate', (req, res) => {
 
   
 //Mounting the router 
-app.use('/api', protect, router)
+app.use('/api', router)
 
-app.post('/user', createNewUser)
+app.post('/user', protect, createNewUser)
 app.post('/signin', signin)
 
 app.use((err, req, res, next) => {
@@ -101,6 +102,7 @@ app.use((err, req, res, next) => {
   } else if (err.type === 'input') {
     res.status(400).json({message: 'invalid input'})
   } else {
+    console.log(error)
     res.status(500).json({message: 'internal server error'})
   }
 })
