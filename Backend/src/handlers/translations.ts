@@ -2,7 +2,7 @@ import prisma from "../db"
 import { translateToBraille } from "../server"
 import { validationResult } from "express-validator"
 
-//Get all
+//Get all Translations
 export const getTranslation = async (req, res, next) => {
     try {
         const user = await prisma.user.findUnique({
@@ -24,7 +24,7 @@ export const getTranslation = async (req, res, next) => {
     
 }
 
-//Get One
+//Get One Translation
 export const getOneTranslation = async (req, res, next) => {
     const id = req.params.id
    try {
@@ -47,6 +47,7 @@ export const getOneTranslation = async (req, res, next) => {
     
 }
 
+// Create new translation
 export const createTranslation = async (req, res) =>  {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

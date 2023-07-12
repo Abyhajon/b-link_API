@@ -1,14 +1,17 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
+//Compare passwords using bcrypt
 export const comparePasswords = (password, hash) => {
     return bcrypt.compare(password, hash)
 }
 
+// Hash password using bcrypt
 export const hashPassword = (password) => {
     return bcrypt.hash(password, 5)
 }
 
+// Create JWT (JSON Web Token)
 export const createJWT = (user) => {
     const token = jwt.sign({
         id: user.id, 
@@ -19,6 +22,7 @@ export const createJWT = (user) => {
     return token
 }
 
+// Protect a route with JWT authentication
 export const protect = (req, res, next) => {
     const bearer = req.headers.authorization
 
